@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Input } from './form'
 // import './Register.css'
 
 const API_URL = 'http://localhost:5000/api/users/register'
@@ -85,59 +86,49 @@ const Register = () => {
       <div className="register-card">
         <h2>Create an account</h2>
         <form className="register-form" onSubmit={handleSubmit} noValidate>
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              value={form.name}
-              onChange={handleChange}
-              className={errors.name ? 'error' : ''}
-            />
-            {errors.name && <span className="field-error">{errors.name}</span>}
-          </div>
+          <Input
+            layout="group"
+            label="Name"
+            id="name"
+            name="name"
+            type="text"
+            value={form.name}
+            onChange={handleChange}
+            error={errors.name}
+          />
 
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={form.email}
-              onChange={handleChange}
-              className={errors.email ? 'error' : ''}
-            />
-            {errors.email && <span className="field-error">{errors.email}</span>}
-          </div>
+          <Input
+            layout="group"
+            label="Email"
+            id="email"
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={handleChange}
+            error={errors.email}
+          />
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={form.password}
-              onChange={handleChange}
-              className={errors.password ? 'error' : ''}
-            />
-            {errors.password && <span className="field-error">{errors.password}</span>}
-          </div>
+          <Input
+            layout="group"
+            label="Password"
+            id="password"
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            error={errors.password}
+          />
 
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              value={form.confirmPassword}
-              onChange={handleChange}
-              className={errors.confirmPassword ? 'error' : ''}
-            />
-            {errors.confirmPassword && (
-              <span className="field-error">{errors.confirmPassword}</span>
-            )}
-          </div>
+          <Input
+            layout="group"
+            label="Confirm Password"
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            error={errors.confirmPassword}
+          />
 
           {message && <div className={`form-message ${message.type}`}>{message.text}</div>}
 

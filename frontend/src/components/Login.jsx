@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { Input } from './form'
 import './Auth.css'
 
 const Login = () => {
@@ -43,29 +44,27 @@ const Login = () => {
       <div className="auth-card">
         <h2>Log in</h2>
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              value={form.email}
-              onChange={handleChange}
-            />
-          </div>
+          <Input
+            layout="group"
+            label="Email"
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            value={form.email}
+            onChange={handleChange}
+          />
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              value={form.password}
-              onChange={handleChange}
-            />
-          </div>
+          <Input
+            layout="group"
+            label="Password"
+            id="password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            value={form.password}
+            onChange={handleChange}
+          />
 
           {error && <div className="form-message error">{error}</div>}
 

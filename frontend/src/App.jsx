@@ -6,9 +6,9 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Login from './components/Login'
 import Register from './components/Register'
 import Dashboard from './components/Dashboard'
+import ChatWindow from './components/Chat/ChatWindow'
 import './App.css'
 import { ThemeContext } from './components/ThemeContext';
-import ThemeButton from './components/ThemeButton'
 
 // Keeps logged-in users out of /login and /register.
 const PublicOnly = ({ children }) => {
@@ -26,7 +26,6 @@ function App() {
   return (
     <>
       <ThemeContext.Provider value={{ theme, setTheme }}>
-        <ThemeButton />
         <Navbar />
         <main className="app-main">
           <Routes>
@@ -49,6 +48,7 @@ function App() {
 
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/chat" element={<ChatWindow />} />
             </Route>
 
             <Route path="/" element={<Navigate to="/dashboard" replace />} />

@@ -1,0 +1,20 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 640px;
+}
+
+.modal-content .product-form {
+  margin-bottom: 0;
+}

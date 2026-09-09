@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { apiFetch } from '../api/client'
+import { Input, Textarea, Select } from './form'
 
 const toFormState = (product) => ({
   name: product?.name ?? '',
@@ -32,7 +33,7 @@ const ProductForm = ({ editing, categories = [], onSaved, onCancel, onCategoryCr
 
   const handleCreateCategory = async () => {
     const name = newCategory.trim() 
-    debugger
+  
     if (!name) {
       setError('Enter a category name to create it')
       return
@@ -93,63 +94,46 @@ const ProductForm = ({ editing, categories = [], onSaved, onCancel, onCategoryCr
       <h3>{editing ? 'Edit product' : 'Add product'}</h3>
 
       <div className="product-form-grid">
-        <label>
-          Name
-          <input name="name" value={form.name} onChange={handleChange} />
-        </label>
-        <label>
-          Category
-          <select name="category" value={form.category} onChange={handleChange}>
-            <option value="">Select a category</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Price
-          <input
-            name="price"
-            type="number"
-            step="0.01"
-            min="0"
-            value={form.price}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Brand
-          <input name="brand" value={form.brand} onChange={handleChange} />
-        </label>
-        <label>
-          Stock
-          <input
-            name="countInStock"
-            type="number"
-            min="0"
-            value={form.countInStock}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Image URL
-          <input name="image" value={form.image} onChange={handleChange} />
-        </label>
-        <label className="product-form-wide">
-          Description
-          <textarea
-            name="description"
-            rows="2"
-            value={form.description}
-            onChange={handleChange}
-          />
-        </label>
+        <Input label="Name" name="name" value={form.name} onChange={handleChange} />
+        <Select
+          label="Category"
+          name="category"
+          value={form.category}
+          onChange={handleChange}
+          placeholder="Select a category"
+          options={categories.map((category) => ({ value: category, label: category }))}
+        />
+        <Input
+          label="Price"
+          name="price"
+          type="number"
+          step="0.01"
+          min="0"
+          value={form.price}
+          onChange={handleChange}
+        />
+        <Input label="Brand" name="brand" value={form.brand} onChange={handleChange} />
+        <Input
+          label="Stock"
+          name="countInStock"
+          type="number"
+          min="0"
+          value={form.countInStock}
+          onChange={handleChange}
+        />
+        <Input label="Image URL" name="image" value={form.image} onChange={handleChange} />
+        <Textarea
+          label="Description"
+          wrapperClassName="product-form-wide"
+          name="description"
+          rows="2"
+          value={form.description}
+          onChange={handleChange}
+        />
         <div className="product-form-wide category-create">
           <label htmlFor="new-category">Create category</label>
           <div className="category-create-controls">
-            <input
+            <Input
               id="new-category"
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}

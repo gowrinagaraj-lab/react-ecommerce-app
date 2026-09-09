@@ -8,10 +8,12 @@ export default function ThemeButton() {
 
     return (
         <button
+            aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
             style={{ background: theme === 'dark' ? '#333' : '#fff', color: theme === 'dark' ? '#fff' : '#333' }}
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
         >
-            Current Theme: {theme}
+          {theme === 'dark' ? '☀️' : '🌙'}
         </button>
     );
 }

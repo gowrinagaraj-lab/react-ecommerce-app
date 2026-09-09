@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { apiFetch } from '../api/client'
 import { useAuth } from '../context/AuthContext'
 import ProductForm from './ProductForm'
+import Modal from './Modal'
+import { Input, Select } from './form'
 const PAGE_SIZE = 8
 
 const SORT_CHOICES = [
@@ -145,55 +147,54 @@ const ProductList = () => {
           <button
             type="button"
             onClick={() => {
-              setEditing(null)
-              setShowCreate((s) => !s)
+              if (showCreate || editing) {
+                setShowCreate(false)
+                setEditing(null)
+              } else {
+                setShowCreate(true)
+              }
             }}
           >
-            {showCreate ? 'Close' : '+ Add product'}
+            {showCreate || editing ? 'Close' : '+ Add product'}
           </button>
         )}
       </div>
 
-      {isAdmin && showCreate && !editing && (
-        <ProductForm
-          key="create"
-          categories={meta.categories}
-          onSaved={handleSaved}
-          onCancel={() => setShowCreate(false)}
-          onCategoryCreated={handleCategoryCreated}
-        />
-      )}
-      {isAdmin && editing && (
-        <ProductForm
-          key={editing._id}
-          editing={editing}
-          categories={meta.categories} 
-          onSaved={handleSaved}
-          onCancel={() => setEditing(null)}
-          onCategoryCreated={handleCategoryCreated}
-        />
+      {isAdmin && (showCreate || editing) && (
+        <Modal onClose={() => { setShowCreate(false); setEditing(null) }}>
+          <ProductForm
+            key={editing ? editing._id : 'create'}
+            editing={editing}
+            categories={meta.categories}
+            onSaved={handleSaved}
+            onCancel={() => { setShowCreate(false); setEditing(null) }}
+            onCategoryCreated={handleCategoryCreated}
+          />
+        </Modal>
       )}
 
       <form className="filter-bar" onSubmit={handleApply}>
-        <input
+        <Input
           name="keyword"
           placeholder="Search by name"
           value={filters.keyword}
           onChange={handleFilterChange}
         />
-        <select name="category" value={filters.category} onChange={handleInstant}>
-          <option value="">All categories</option>
-          {meta.categories.map((c) => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-        </select>
-        <select name="brand" value={filters.brand} onChange={handleInstant}>
-          <option value="">All brands</option>
-          {meta.brands.map((b) => (
-            <option key={b} value={b}>{b}</option>
-          ))}
-        </select>
-        <input
+        <Select
+          name="category"
+          value={filters.category}
+          onChange={handleInstant}
+          placeholder="All categories"
+          options={meta.categories.map((c) => ({ value: c, label: c }))}
+        />
+        <Select
+          name="brand"
+          value={filters.brand}
+          onChange={handleInstant}
+          placeholder="All brands"
+          options={meta.brands.map((b) => ({ value: b, label: b }))}
+        />
+        <Input
           name="minPrice"
           type="number"
           min="0"
@@ -201,7 +202,7 @@ const ProductList = () => {
           value={filters.minPrice}
           onChange={handleFilterChange}
         />
-        <input
+        <Input
           name="maxPrice"
           type="number"
           min="0"
@@ -214,14 +215,14 @@ const ProductList = () => {
           Reset
         </button>
 
-        <label className="sort-control">
-          Sort
-          <select name="sort" value={filters.sort} onChange={handleInstant}>
-            {SORT_CHOICES.map((s) => (
-              <option key={s.value} value={s.value}>{s.label}</option>
-            ))}
-          </select>
-        </label>
+        <Select
+          label="Sort"
+          wrapperClassName="sort-control"
+          name="sort"
+          value={filters.sort}
+          onChange={handleInstant}
+          options={SORT_CHOICES}
+        />
       </form>
 
       {error && <div className="form-message error">{error}</div>}
